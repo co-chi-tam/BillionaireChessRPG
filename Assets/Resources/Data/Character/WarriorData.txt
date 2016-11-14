@@ -1,0 +1,18 @@
+﻿{
+	"id": "HERO-0002",
+	"name": "Warrior",
+	"objectType": 1,
+	"FSMPath": "FSM/HeroFSM",
+	"avatarPath": "HeroIcon",
+	"currentHealth": 100,
+	"maxHealth": 100,
+	"currentMana": 100,
+	"maxMana": 100,
+	"luckyPoint": 1.0,
+	"challengePoint": 1.0,
+	"pureDamage": 50,
+	"physicDamage": 50,
+	"physicDefend": 30,
+	"magicDamage": 50,
+	"magicDefend": 10
+}

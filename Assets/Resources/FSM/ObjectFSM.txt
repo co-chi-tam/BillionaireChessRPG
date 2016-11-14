@@ -1,0 +1,38 @@
+﻿{
+  "fsm": [
+    {
+      "condition_name": "IsRoot",
+      "state_name": "CharacterIdleState",
+      "states": [
+      	{
+          "condition_name": "DidMoveToLock&&!HaveTargetAttack",
+          "state_name": "RollDiceState",
+          "states": [
+          	{
+	          "condition_name": "DidRollDice",
+	          "state_name": "CharacterIdleState",
+	          "states": []
+	        }
+          ]
+        }
+      ]
+    },
+    {
+      "condition_name": "IsAnyState",
+      "state_name": "AnyState",
+      "states": [
+        {
+          "condition_name": "IsDeath",
+          "state_name": "CharacterDeathState",
+          "states": [
+            {
+              "condition_name": "!IsDeath",
+              "state_name": "CharacterIdleState",
+              "states": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

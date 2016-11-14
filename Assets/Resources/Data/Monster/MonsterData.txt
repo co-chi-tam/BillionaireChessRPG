@@ -1,0 +1,19 @@
+﻿{
+	"id": "MONSTER-0001",
+	"name": "MONSTER",
+	"objectType": 2,
+	"FSMPath": "FSM/MonsterFSM",
+	"avatarPath": "HeroIcon",
+	"currentHealth": 60,
+	"maxHealth": 60,
+	"currentMana": 60,
+	"maxMana": 60,
+	"luckyPoint": 1.0,
+	"challengePoint": 1.0,
+	"pureDamage": 20,
+	"physicDamage": 20,
+	"physicDefend": 20,
+	"magicDamage": 20,
+	"magicDefend": 20,
+	"goldReward": 100
+}

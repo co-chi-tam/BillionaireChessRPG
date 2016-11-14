@@ -1,0 +1,108 @@
+﻿{
+  "fsm": [
+    {
+      "condition_name": "IsRoot",
+      "state_name": "CharacterIdleState",
+      "states": [
+      	{
+          "condition_name": "IsStartTurn",
+          "state_name": "StartTurnState",
+          "states": [
+          	{
+	          "condition_name": "DidMoveToBlock&&!HaveTargetAttack&&!IsFinishBlock",
+	          "state_name": "RollDiceState",
+	          "states": [
+	          	{
+		          "condition_name": "DidRollDice",
+		          "state_name": "CharacterIdleState",
+		          "states": []
+		        }
+	          ]
+	        },{
+	          "condition_name": "!DidMoveToBlock",
+	          "state_name": "CharacterMoveState",
+	          "states": [
+		        {
+	              "condition_name": "DidMoveToBlock",
+	              "state_name": "EnterBlockState",
+	              "states": [
+	              	{
+		              "condition_name": "!HaveTargetAttack",
+		              "state_name": "FindTargetState",
+		              "states": [
+		              	{
+			              "condition_name": "IsActive",
+			              "state_name": "EndTurnState",
+			              "states": [
+			              	{
+				              "condition_name": "IsActive",
+				              "state_name": "CharacterIdleState",
+				              "states": []
+				            }
+			              ]
+			            }
+		              ]
+		            },{
+		              "condition_name": "HaveTargetAttack",
+		              "state_name": "EndTurnState",
+		              "states": [
+		              	{
+			              "condition_name": "IsActive",
+			              "state_name": "CharacterIdleState",
+			              "states": []
+			            }
+		              ]
+		            }
+		          ]
+	            }
+	          ]
+	        },{
+              "condition_name": "HaveTargetAttack",
+              "state_name": "CharacterAttackState",
+              "states": [
+              	{
+	              "condition_name": "DidAttack",
+	              "state_name": "EndTurnState",
+	              "states": [
+	              	{
+		              "condition_name": "IsActive",
+		              "state_name": "CharacterIdleState",
+		              "states": []
+		            }
+	              ]
+	            }
+              ]
+            },{
+              "condition_name": "IsFinishBlock&&!HaveTargetAttack",
+              "state_name": "LeaveTurnState",
+              "states": [
+              	{
+	              "condition_name": "IsActive",
+	              "state_name": "CharacterIdleState",
+	              "states": []
+	            }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "condition_name": "IsAnyState",
+      "state_name": "AnyState",
+      "states": [
+        {
+          "condition_name": "IsDeath",
+          "state_name": "CharacterDeathState",
+          "states": [
+            {
+              "condition_name": "!IsDeath",
+              "state_name": "CharacterIdleState",
+              "states": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
