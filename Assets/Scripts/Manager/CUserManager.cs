@@ -27,11 +27,10 @@ namespace BillianaireChessRPG {
 		public void LoadHeroData() {
 			if (user == null)
 				return;
-			StartCoroutine (HandleLoadData ());
+			StartCoroutine (HandleLoadData ("Prefabs/Hero/Barbarian", "Prefabs/Hero/Priest"));
 		}
 
-		private IEnumerator HandleLoadData() {
-			var heroes = new string [] { "Prefabs/Hero/Barbarian", "Prefabs/Hero/Priest" };
+		private IEnumerator HandleLoadData(params string[] heroes) {
 			for (int i = 0; i < heroes.Length; i++) {
 				var heroController = Instantiate (Resources.Load <CHeroController> (heroes[i]));
 				yield return heroController != null;

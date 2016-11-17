@@ -16,15 +16,13 @@ namespace BillianaireChessRPG {
 		protected override void Awake ()
 		{
 			base.Awake ();
-			// TEST
-			m_DataPath = "Data/Monster/MonsterData";
 		}
 
 		protected override void Start ()
 		{
 			base.Start ();
 			var dataJSON = Resources.Load<TextAsset>(m_DataPath);
-			m_Data = TinyJSON.JSON.Load (dataJSON.text).Make<CMonsterData> ();
+			m_Data = TinyJSON.JSON.Load (dataJSON.text).Make<CCharacterData> ();
 			var jsonText = Resources.Load<TextAsset>(this.GetFSMPath());
 			m_FSMManager.LoadFSM (jsonText.text);
 			SetCurrentBlock (m_CurrentBlock);
@@ -44,11 +42,6 @@ namespace BillianaireChessRPG {
 		{
 			base.GetFSMStateName ();
 			return m_StateName;
-		}
-
-		public override int GetGoldReward ()
-		{
-			return (m_Data as CMonsterData).goldReward;
 		}
 
 	}

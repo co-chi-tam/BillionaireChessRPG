@@ -68,7 +68,6 @@ namespace FSM
 					break;
 				}
 			}
-
             var stateNow = m_States[m_Map.StateName];
 			currentStateName = m_Map.StateName;
             switch (m_CurrentState)

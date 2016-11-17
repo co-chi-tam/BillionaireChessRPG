@@ -24,7 +24,7 @@ namespace BillianaireChessRPG {
 		// Register List
 		[SerializeField]	public List<CObjectController> registerObjects;
 
-		private FSMManager m_FSMManager;
+		protected FSMManager m_FSMManager;
 		private SequenceList<CObjectController> m_SequenceList;
 		private float m_WaitingTime = 0f;
 		private float m_WaitingTimeInterval = 1f;
@@ -60,7 +60,7 @@ namespace BillianaireChessRPG {
 		}
 
 		protected virtual void OnRegisterFSM() {
-			var jsonText 		= Resources.Load<TextAsset>(m_MapManager.map.gameFSMPath);
+			var jsonText 		= Resources.Load<TextAsset>(m_MapManager.mapData.gameFSMPath);
 			var gameIdle		= new FSMGameIdleState (this);
 			var gameLoading 	= new FSMGameLoadingState (this);
 			var gameStart 		= new FSMGameStartState (this);
@@ -95,15 +95,22 @@ namespace BillianaireChessRPG {
 			m_FSMManager.RegisterCondition ("IsOnceCompleteBlock", IsOnceCompleteBlock);
 			m_FSMManager.RegisterCondition ("IsAllDeath", IsAllDeath);
 			m_FSMManager.RegisterCondition ("IsOnceDeath", IsOnceDeath);
-			m_FSMManager.RegisterCondition ("IsKillGuestTargetBlock", IsKillGuestTargetBlock);
+			m_FSMManager.RegisterCondition ("DidDeactiveTargetObject", DidDeactiveTargetObject);
+			m_FSMManager.RegisterCondition ("Did5Turn", Did5Turn);
+			m_FSMManager.RegisterCondition ("Did10Turn", Did10Turn);
+			m_FSMManager.RegisterCondition ("Did20Turn", Did20Turn);
+			m_FSMManager.RegisterCondition ("Did30Turn", Did30Turn);
+			m_FSMManager.RegisterCondition ("Did40Turn", Did40Turn);
+			m_FSMManager.RegisterCondition ("Did50Turn", Did50Turn);
 
 			m_FSMManager.LoadFSM (jsonText.text);
 		}
 
 		protected virtual void OnLoadMapData() {
 			var mapJSON = Resources.Load<TextAsset> (m_UserManager.mapSelectedPath);
-			m_MapManager.map = TinyJSON.JSON.Load (mapJSON.text).Make<CMapData> ();
-			m_MapManager.LoadData ();
+			m_MapManager.mapData = TinyJSON.JSON.Load (mapJSON.text).Make<CMapData> ();
+			m_MapManager.LoadMapObject ();
+			m_MapManager.LoadMapData ();
 		}
 
 		protected virtual void OnLoadHeroData() {
@@ -123,7 +130,7 @@ namespace BillianaireChessRPG {
 
 		public virtual void OnObjectSelectRollDice() {
 			var currentBlock = objectSelected.GetCurrentBlock () as CBlockController;
-			var randomStep = UnityEngine.Random.Range(1, 7);
+			var randomStep = UnityEngine.Random.Range(objectSelected.GetMinStep(), objectSelected.GetMaxStep() + 1);
 			var nextBlock = m_MapManager.GetBlockStep (0, currentBlock, randomStep);
 			m_UIManager.SetAnimation (CEnum.EUIState.RollDice);
 			m_UIManager.OnRollDiceComplete += () => {
@@ -153,7 +160,8 @@ namespace BillianaireChessRPG {
 		}
 
 		public virtual void OnObjectStartTurn() {
-			m_TurnCount += 1;
+			var turn = m_TurnCount + 1;
+			m_TurnCount = turn;
 			OnTurnChange (m_TurnCount);
 			objectSelected = m_SequenceList.Peek ();
 			if (objectSelected == null)
@@ -206,8 +214,12 @@ namespace BillianaireChessRPG {
 			SceneManager.LoadScene ("MainScene");
 		}
 
+		public virtual void OnUserRewardGold(int value) {
+			m_UserManager.user.gold += value;
+		}
+
 		public void RegisterObject(CObjectController value) {
-			if (value == null)
+			if (value == null || value.GetActive() == false)
 				return;
 			if (m_SequenceList.Contain (value))
 				return;
@@ -233,7 +245,7 @@ namespace BillianaireChessRPG {
 
 		internal virtual bool IsLoadingComplete() {
 			return GameState == CEnum.EGameState.StartGame
-				&& m_MapManager.map != null
+				&& m_MapManager.mapData != null
 				&& m_MapManager.mapBlockControllers.Count > 0
 				&& m_UserManager.user != null;
 		}
@@ -323,8 +335,42 @@ namespace BillianaireChessRPG {
 			return false;
 		}
 
-		internal virtual bool IsKillGuestTargetBlock() {
-			return m_MapManager.GetTargetBlock (0).GetGuests().Count == 0;
+		internal virtual bool DidDeactiveTargetObject() {
+			var allSkill = true;
+			var mapBlockController = m_MapManager.mapBlockControllers [0];
+			for (int i = 0; i < mapBlockController.targetObjects.Count; i++) {
+				var targetObject = mapBlockController.targetObjects [i];
+				if (targetObject != null && targetObject.GetActive () == false) {
+					allSkill &= true; 
+				} else {
+					allSkill = false;
+				}
+			}
+			return allSkill && mapBlockController.targetObjects.Count > 0;
+		}
+
+		internal virtual bool Did5Turn() {
+			return m_TurnCount == 5;
+		}
+
+		internal virtual bool Did10Turn() {
+			return m_TurnCount == 10;
+		}
+
+		internal virtual bool Did20Turn() {
+			return m_TurnCount == 20;
+		}
+
+		internal virtual bool Did30Turn() {
+			return m_TurnCount == 20;
+		}
+
+		internal virtual bool Did40Turn() {
+			return m_TurnCount == 20;
+		}
+
+		internal virtual bool Did50Turn() {
+			return m_TurnCount == 20;
 		}
 
 		#endregion

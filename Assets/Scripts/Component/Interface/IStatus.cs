@@ -36,8 +36,8 @@ namespace BillianaireChessRPG {
 		void SetLuckyPoint(int value);
 		int GetLuckyPoint();			// Point to avoid trap and object can dangerous, or obtain chest
 
-		void SetChallengePoint (int value);
-		int GetChallengePoint();		// Point to Attack enemy or player.
+		int GetMinStep();
+		int GetMaxStep();
 
 		int GetPureDamage();
 

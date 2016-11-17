@@ -21,6 +21,8 @@ namespace BillianaireChessRPG {
 		[SerializeField]	protected CEnum.ETeam m_CurrentTeam = CEnum.ETeam.None;
 		protected CEnum.ETurnState m_CurrentStateTurn = CEnum.ETurnState.None;
 
+		protected CGameManager m_GameManager;
+		protected CMapManager m_MapManager;
 		protected FSMManager m_FSMManager;
 		protected bool m_DidRollDice = false;
 
@@ -42,6 +44,8 @@ namespace BillianaireChessRPG {
 		protected override void Start ()
 		{
 			base.Start ();
+			m_GameManager = CGameManager.GetInstance ();
+			m_MapManager = CMapManager.GetInstance ();
 			OnRegisterComponent ();
 			OnRegisterFSM ();
 			OnRegisterAnimation ();
@@ -55,13 +59,15 @@ namespace BillianaireChessRPG {
 			var startTurnState 	= new FSMStartTurnState (this);
 			var endTurnState 	= new FSMEndTurnState (this);
 			var leaveTurnState 	= new FSMLeaveTurnState (this);
+			var joinTurnState 	= new FSMJoinTurnState (this);
 			var rollDiceState 	= new FSMRollDiceState (this);
 			var enterBlockState = new FSMEnterBlockState (this);
-			var waitingState = new FSMWaitingState (this);
+			var waitingState 	= new FSMWaitingState (this);
 
 			m_FSMManager.RegisterState ("StartTurnState", 	startTurnState);
 			m_FSMManager.RegisterState ("EndTurnState", 	endTurnState);
 			m_FSMManager.RegisterState ("LeaveTurnState", 	leaveTurnState);
+			m_FSMManager.RegisterState ("JoinTurnState", 	joinTurnState);
 			m_FSMManager.RegisterState ("RollDiceState", 	rollDiceState);
 			m_FSMManager.RegisterState ("EnterBlockState", 	enterBlockState);
 			m_FSMManager.RegisterState ("WaitingState", 	waitingState);
@@ -69,10 +75,16 @@ namespace BillianaireChessRPG {
 			m_FSMManager.RegisterCondition ("IsStartTurn", 	IsStartTurn);
 			m_FSMManager.RegisterCondition ("IsEndTurn", 	IsEndTurn);
 			m_FSMManager.RegisterCondition ("IsDeath", 		IsDeath);
-			m_FSMManager.RegisterCondition ("IsFinishBlock", IsFinishBlock);
-			m_FSMManager.RegisterCondition ("IsActive",		this.GetActive);
-			m_FSMManager.RegisterCondition ("DidRollDice", 	this.GetRollDice);
-			m_FSMManager.RegisterCondition ("CanRollDice", 	this.CanRollDice);
+			m_FSMManager.RegisterCondition ("DidMoveToTargetBlock", DidMoveToTargetBlock);
+			m_FSMManager.RegisterCondition ("IsActive",		GetActive);
+			m_FSMManager.RegisterCondition ("DidRollDice", 	GetRollDice);
+			m_FSMManager.RegisterCondition ("CanRollDice", 	CanRollDice);
+			m_FSMManager.RegisterCondition ("Did5Turn", m_GameManager.Did5Turn);
+			m_FSMManager.RegisterCondition ("Did10Turn", m_GameManager.Did10Turn);
+			m_FSMManager.RegisterCondition ("Did20Turn", m_GameManager.Did20Turn);
+			m_FSMManager.RegisterCondition ("Did30Turn", m_GameManager.Did30Turn);
+			m_FSMManager.RegisterCondition ("Did40Turn", m_GameManager.Did40Turn);
+			m_FSMManager.RegisterCondition ("Did50Turn", m_GameManager.Did50Turn);
 		}
 
 		protected virtual void OnRegisterAnimation() {
@@ -133,8 +145,8 @@ namespace BillianaireChessRPG {
 			return false;
 		}
 
-		internal virtual bool IsFinishBlock() {
-			return m_CurrentBlock == CMapManager.Instance.GetTargetBlock(0);
+		internal virtual bool DidMoveToTargetBlock() {
+			return m_CurrentBlock == m_MapManager.GetTargetBlock(0);
 		}
 
 		#endregion
@@ -228,11 +240,11 @@ namespace BillianaireChessRPG {
 		}
 
 		public virtual void SetCurrentBlock(CObjectController value) {
-			if (m_CurrentBlock != null) {
+			if (m_CurrentBlock != null && Application.isPlaying) {
 				CGameManager.Instance.OnObjectLeaveBlock (this, m_CurrentBlock);
 			}
 			m_CurrentBlock = value;
-			if (value != null) {
+			if (value != null && Application.isPlaying) {
 				CGameManager.Instance.OnObjectEnterBlock (this, value);
 			}
 		}
@@ -325,11 +337,11 @@ namespace BillianaireChessRPG {
 			return 0;
 		}
 
-		public virtual void SetChallengePoint(int value) {
-		
+		public virtual int GetMinStep() {
+			return 0;
 		}
 
-		public virtual int GetChallengePoint() {
+		public virtual int GetMaxStep() {
 			return 0;
 		}
 

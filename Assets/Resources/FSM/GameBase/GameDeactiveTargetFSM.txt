@@ -1,0 +1,76 @@
+﻿{
+  "fsm": [
+    {
+      "condition_name": "IsRoot",
+      "state_name": "GameIdleState",
+      "states": [
+      	{
+	      "condition_name": "IsLoading",
+	      "state_name": "GameLoadingState",
+	      "states": [
+	      	{
+		      "condition_name": "IsLoadingComplete",
+		      "state_name": "GameStartState",
+		      "states": [
+		      	{
+			      "condition_name": "IsProcessing",
+			      "state_name": "GameProcessingState",
+			      "states": [
+			      	{
+				      "condition_name": "IsStartTurn&&!DidDeactiveTargetObject&&!IsAllDeath",
+				      "state_name": "StartTurnState",
+				      "states": [
+				      	{
+					      "condition_name": "IsUpdateTurn",
+					      "state_name": "UpdateTurnState",
+					      "states": [
+					      	{
+						      "condition_name": "IsEndTurn",
+						      "state_name": "EndTurnState",
+						      "states": [
+						      	{
+							      "condition_name": "IsProcessing",
+							      "state_name": "GameProcessingState",
+							      "states": []
+							    }
+						      ]
+						    }
+					      ]
+					    }
+				      ]
+				    },{
+				      "condition_name": "DidDeactiveTargetObject",
+				      "state_name": "WinGameState",
+				      "states": [
+				      	{
+					      "condition_name": "IsEndGame",
+					      "state_name": "GameEndState",
+					      "states": []
+					    }
+				      ]
+				    },{
+				      "condition_name": "IsAllDeath",
+				      "state_name": "CloseGameState",
+				      "states": [
+				      	{
+					      "condition_name": "IsEndGame",
+					      "state_name": "GameEndState",
+					      "states": []
+					    }
+				      ]
+				    }
+			      ]
+			    }
+		      ]
+		    }
+	      ]
+	    }
+      ]
+    },
+    {
+      "condition_name": "IsAnyState",
+      "state_name": "AnyState",
+      "states": []
+    }
+  ]
+}

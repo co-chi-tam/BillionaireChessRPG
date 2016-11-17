@@ -17,7 +17,9 @@ namespace BillianaireChessRPG {
 		public int maxMana;
 
 		public int luckyPoint;
-		public int challengePoint;
+
+		public int minStep;
+		public int maxStep;
 
 		public int pureDamage;
 
@@ -26,6 +28,8 @@ namespace BillianaireChessRPG {
 
 		public int magicDamage;
 		public int magicDefend;
+
+		public int goldReward;
 
 		public CCharacterData () : base ()
 		{
@@ -39,7 +43,9 @@ namespace BillianaireChessRPG {
 			this.maxMana = 0;
 
 			this.luckyPoint = 0;
-			this.challengePoint = 0;
+
+			this.minStep = 0;
+			this.maxStep = 0;
 
 			this.pureDamage = 0;
 
@@ -48,6 +54,8 @@ namespace BillianaireChessRPG {
 
 			this.magicDamage = 0;
 			this.magicDefend = 0;
+
+			this.goldReward = 0;
 		}
 
 	}

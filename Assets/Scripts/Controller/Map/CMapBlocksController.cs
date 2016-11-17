@@ -7,7 +7,9 @@ namespace BillianaireChessRPG {
 	public class CMapBlocksController : CBaseController {
 
 		[SerializeField]	private string m_MapName = "TutorialMap";
+		[SerializeField]	public CBlockController startBlock;
 		[SerializeField]	public CBlockController targetBlock;
+		[SerializeField]	public List<CObjectController> targetObjects;
 		[SerializeField]	public List<CBlockController> blocks;
 
 		protected override void Awake ()
@@ -17,7 +19,7 @@ namespace BillianaireChessRPG {
 
 		public CBlockController GetBlock(int index) {
 			if (index < 0 || index >= blocks.Count)
-				return null;
+				return blocks[0];
 			return blocks[index];
 		}
 
@@ -26,7 +28,7 @@ namespace BillianaireChessRPG {
 				return null;
 			var currentIndex = blocks.IndexOf(current);
 			if (currentIndex == -1)
-				return null;
+				return current;
 			var maxStep = currentIndex + step;
 			if (maxStep >= blocks.Count)
 				return blocks[blocks.Count - 1];
@@ -35,11 +37,11 @@ namespace BillianaireChessRPG {
 
 		public CBlockController GetBlockPath(CBlockController current, CBlockController target) {
 			if (current == null || target == null || current == target)
-				return null;
+				return current;
 			var currentIndex = blocks.IndexOf(current);
 			var tagetIndex = blocks.IndexOf(target);
 			if (currentIndex == -1 || tagetIndex == -1)
-				return null;
+				return current;
 			if (currentIndex + 1 >= blocks.Count)
 				return blocks[blocks.Count - 1];
 			var step = currentIndex < tagetIndex ? currentIndex + 1 : currentIndex - 1;

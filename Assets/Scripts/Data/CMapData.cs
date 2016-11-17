@@ -10,12 +10,14 @@ namespace BillianaireChessRPG {
 		public string mapName;
 		public string[] mapModels;
 		public string gameFSMPath;
+		public string mapFSMPath;
 
 		public CMapData () : base ()
 		{
 			this.mapName = string.Empty;
 			this.mapModels = null;
 			this.gameFSMPath = string.Empty;
+			this.mapFSMPath = string.Empty;
 		}
 
 	}

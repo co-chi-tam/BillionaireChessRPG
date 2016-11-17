@@ -29,7 +29,7 @@ namespace BillianaireChessRPG {
 			EditorGUILayout.LabelField ("HP:", m_Target.GetCurrentHealth() + " / " + m_Target.GetMaxHealth());
 			EditorGUILayout.LabelField ("MP:", m_Target.GetCurrentMana() + " / " + m_Target.GetMaxMana());
 			EditorGUILayout.LabelField ("LP:", m_Target.GetLuckyPoint().ToString ());
-			EditorGUILayout.LabelField ("CP:", m_Target.GetChallengePoint().ToString ());
+			EditorGUILayout.LabelField ("Step:", m_Target.GetMinStep() + "/" + m_Target.GetMaxStep());
 			EditorGUILayout.LabelField ("Pure Damage:", m_Target.GetPureDamage().ToString ());
 			EditorGUILayout.LabelField ("Physic Damage:", m_Target.GetPhysicDamage().ToString ());
 			EditorGUILayout.LabelField ("Magic Damage:", m_Target.GetMagicDamage().ToString ());

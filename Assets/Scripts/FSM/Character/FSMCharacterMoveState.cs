@@ -15,6 +15,8 @@ namespace BillianaireChessRPG {
 		public override void StartState()
 		{
 			base.StartState ();
+			m_Controller.SetTargetAttack (null);
+			m_Controller.SetTargetAlly (null);
 			m_Controller.SetAnimation (CEnum.EAnimation.Move);
 			m_MapManager = CMapManager.GetInstance ();
 		}

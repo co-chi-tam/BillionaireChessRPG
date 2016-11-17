@@ -43,7 +43,7 @@ namespace BillianaireChessRPG {
 
 		protected virtual void BuffHealth(string animationName) {
 			m_DidAttack = true;
-			if (m_TargetAlly != null) {
+			if (m_TargetAlly != null && m_TargetAlly.GetCurrentBlock() == this.GetCurrentBlock()) {
 				m_TargetAlly.ApplyBuff (50, CEnum.EStatusType.Health);
 			} else {
 				this.ApplyBuff (50, CEnum.EStatusType.Health);

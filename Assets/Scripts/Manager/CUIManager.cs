@@ -11,8 +11,6 @@ namespace BillianaireChessRPG {
 
 		public Action OnRollDiceComplete;
 
-
-
 		public void SetAnimation(int anim) {
 			m_Animator.SetInteger ("AnimParam", anim);
 		}

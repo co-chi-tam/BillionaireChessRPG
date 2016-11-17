@@ -9,7 +9,7 @@
           "state_name": "StartTurnState",
           "states": [
           	{
-	          "condition_name": "DidMoveToBlock&&!HaveTargetAttack&&!IsFinishBlock",
+	          "condition_name": "DidMoveToBlock&&!HaveTargetAttack&&!DidMoveToTargetBlock",
 	          "state_name": "RollDiceState",
 	          "states": [
 	          	{
@@ -73,7 +73,7 @@
 	            }
               ]
             },{
-              "condition_name": "IsFinishBlock&&!HaveTargetAttack",
+              "condition_name": "DidMoveToTargetBlock&&!HaveTargetAttack",
               "state_name": "LeaveTurnState",
               "states": [
               	{

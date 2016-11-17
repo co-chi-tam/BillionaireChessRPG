@@ -19,7 +19,6 @@ namespace BillianaireChessRPG {
 
 		protected CMovableComponent m_MovableComponent;
 		protected CBattlableComponent m_BattleComponent;
-		protected CGameManager m_GameManager;
 		protected bool m_DidAttack = false;
 
 		protected CCharacterData m_Data;
@@ -45,15 +44,19 @@ namespace BillianaireChessRPG {
 			var moveState 	= new FSMCharacterMoveState (this);
 			var attackState = new FSMCharacterAttackState (this);
 			var autoAttackState = new FSMCharacterAutoAttackState (this);
+			var randomMoveState = new FSMCharacterRandomMoveState (this);
 			var deathState 	= new FSMCharacterDeathState (this);
 			var findTarget = new FSMFindTargetState (this);
+			var waitingState = new FSMControlWaitingState (this);
 
 			m_FSMManager.RegisterState ("CharacterIdleState", 	idleState);
 			m_FSMManager.RegisterState ("CharacterMoveState", 	moveState);
 			m_FSMManager.RegisterState ("CharacterAttackState", attackState);
 			m_FSMManager.RegisterState ("CharacterAutoAttackState", autoAttackState);
+			m_FSMManager.RegisterState ("CharacterRandomMoveState", randomMoveState);
 			m_FSMManager.RegisterState ("CharacterDeathState", 	deathState);
 			m_FSMManager.RegisterState ("FindTargetState", 	findTarget);
+			m_FSMManager.RegisterState ("ControlWaitingState", waitingState);
 
 			m_FSMManager.RegisterCondition ("HaveTargetAttack",		HaveTargetAttack);
 			m_FSMManager.RegisterCondition ("HaveTargetAlly",		HaveTargetAlly);
@@ -139,9 +142,9 @@ namespace BillianaireChessRPG {
 		internal virtual bool HaveTargetAttack() {
 			if (m_TargetAttack == null)
 				return false;
-			return m_TargetAttack != null 
-				&& m_TargetAttack.GetActive() 
-				&& m_TargetAttack.GetTeam() != this.GetTeam();
+			return m_TargetAttack.GetActive() 
+				&& m_TargetAttack.GetTeam() != this.GetTeam()
+				&& m_TargetAttack.GetCurrentBlock() == this.GetCurrentBlock();
 		}
 
 		internal virtual bool HaveTargetAlly() {
@@ -169,7 +172,7 @@ namespace BillianaireChessRPG {
 
 		internal override bool CanRollDice ()
 		{
-			return DidMoveToBlock() && !HaveTargetAttack() && !IsFinishBlock();
+			return DidMoveToBlock() && !HaveTargetAttack() && !DidMoveToTargetBlock();
 		}
 
 		#endregion
@@ -257,15 +260,14 @@ namespace BillianaireChessRPG {
 			return m_Data.luckyPoint;
 		}
 
-		public override void SetChallengePoint (int value)
-		{
-			base.SetChallengePoint (value);
-			m_Data.challengePoint = Mathf.Clamp (value, 0, 50);
+		public override int GetMinStep() {
+			base.GetMinStep ();
+			return m_Data.minStep;
 		}
 
-		public override int GetChallengePoint() {
-			base.GetChallengePoint ();
-			return m_Data.challengePoint;
+		public override int GetMaxStep() {
+			base.GetMaxStep ();
+			return m_Data.maxStep;
 		}
 
 		public override int GetPureDamage() {
@@ -376,6 +378,11 @@ namespace BillianaireChessRPG {
 		{
 			base.SetObjectType (objectType);
 			m_Data.objectType = objectType;
+		}
+
+		public override int GetGoldReward ()
+		{
+			return m_Data.goldReward;
 		}
 
 		#endregion

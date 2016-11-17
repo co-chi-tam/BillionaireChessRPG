@@ -10,31 +10,9 @@
           "states": [
           	{
               "condition_name": "IsActive",
-              "state_name": "EnterBlockState",
+              "state_name": "FindTargetState",
               "states": [
               	{
-	              "condition_name": "!HaveTargetAttack",
-	              "state_name": "FindTargetState",
-	              "states": [
-	              	{
-		              "condition_name": "HaveTargetAttack",
-		              "state_name": "CharacterAutoAttackState",
-		              "states": [
-		              	{
-			              "condition_name": "DidAttack",
-			              "state_name": "LeaveTurnState",
-			              "states": [
-			              	{
-				              "condition_name": "IsActive",
-				              "state_name": "CharacterIdleState",
-				              "states": []
-				            }
-			              ]
-			            }
-		              ]
-		            }
-	              ]
-	            },{
 	              "condition_name": "HaveTargetAttack",
 	              "state_name": "CharacterAutoAttackState",
 	              "states": [
@@ -50,6 +28,10 @@
 		              ]
 		            }
 	              ]
+	            },{
+	              "condition_name": "!HaveTargetAttack",
+	              "state_name": "LeaveTurnState",
+	              "states": []
 	            }
               ]
             }

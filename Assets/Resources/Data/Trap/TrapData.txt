@@ -1,9 +1,9 @@
 ﻿{
 	"id": "TRAP-0001",
-	"name": "Trap",
+	"name": "TRAP",
 	"objectType": 3,
-	"FSMPath": "FSM/TrapOnceFSM",
-	"avatarPath": "HeroIcon",
+	"FSMPath": "FSM/Trap/TrapAlwayFSM",
+	"avatarPath": "TrapIcon",
 	"currentHealth": 1,
 	"maxHealth": 1,
 	"currentMana": 1,
