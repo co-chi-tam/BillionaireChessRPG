@@ -26,12 +26,11 @@ namespace BillianaireChessRPG {
 		}
 
 		public void RegisterUIAvatar(CObjectController value) {
-			value.OnStartTurn -= UIAvatarAnimation;
-			value.OnStartTurn += UIAvatarAnimation;
+			
 		}
 
 		public void UnRegisterUIAvatar(CObjectController value) {
-			value.OnStartTurn -= UIAvatarAnimation;
+			
 		}
 
 		private void UIAvatarAnimation() {
