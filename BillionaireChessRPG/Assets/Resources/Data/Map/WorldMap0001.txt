@@ -1,0 +1,8 @@
+﻿{
+	"id": "WORLDMAP_0001",
+	"mapName": "WORLD Map 0001",
+	"mapModels": ["Prefabs/Map/WorldMap_1"],
+	"gameFSMPath": "FSM/GameBase/GameBaseFSM",
+	"mapFSMPath": "FSM/Map/MapBaseFSM",
+	"limitStep": 6
+}

@@ -1,0 +1,8 @@
+﻿{
+	"id": "MAP_0001",
+	"mapName": "Tutorial Map",
+	"mapModels": ["Prefabs/Map/MapTurial_1"],
+	"gameFSMPath": "FSM/GameBase/GameBaseFSM",
+	"mapFSMPath": "FSM/Map/MapBaseFSM",
+	"limitStep": 1
+}

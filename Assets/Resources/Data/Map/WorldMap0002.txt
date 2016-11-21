@@ -1,7 +1,0 @@
-﻿{
-	"id": "WORLDMAP_0002",
-	"mapName": "WORLD Map 0002",
-	"mapModels": ["Prefabs/Map/WorldMap_2"],
-	"gameFSMPath": "FSM/GameBase/GameDeactiveTargetFSM",
-	"mapFSMPath": "FSM/Map/MapBaseFSM"
-}

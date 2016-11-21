@@ -1,0 +1,18 @@
+﻿{
+	"id": "HERO-0003",
+	"name": "Priest",
+	"objectType": 1,
+	"modelPath": "Prefabs/Hero/Priest",
+	"avatarPath": "HeroIcon",
+	"currentHealth": 80,
+	"maxHealth": 80,
+	"currentMana": 100,
+	"maxMana": 100,
+	"luckyPoint": 1.0,
+	"pureDamage": 40,
+	"physicDamage": 40,
+	"physicDefend": 20,
+	"magicDamage": 40,
+	"magicDefend": 50
+}
+
