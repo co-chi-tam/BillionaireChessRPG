@@ -12,8 +12,15 @@ namespace BillianaireChessRPG {
 
 		public CObjectData () : base ()
 		{
-			this.name = string.Empty;
+			this.name 		= string.Empty;
 			this.objectType = CEnum.EObjectType.None;
+		}
+
+		public override void LoadFromDictionary (Dictionary<string, object> value)
+		{
+			base.LoadFromDictionary (value);
+			this.name 		= value["name"].ToString();
+			this.objectType = (CEnum.EObjectType) Enum.Parse (typeof (CEnum.EObjectType), value["objectType"].ToString());
 		}
 
 	}

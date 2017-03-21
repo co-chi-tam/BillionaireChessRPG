@@ -14,5 +14,9 @@ namespace BillianaireChessRPG {
 			this.id = string.Empty;
 		}
 
+		public virtual void LoadFromDictionary(Dictionary<string, object> value) {
+			this.id = value ["id"].ToString ();
+		}
+
 	}
 }

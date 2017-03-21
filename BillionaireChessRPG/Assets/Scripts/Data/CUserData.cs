@@ -12,8 +12,15 @@ namespace BillianaireChessRPG {
 
 		public CUserData () : base ()
 		{
-			this.gold = 0;
-			this.diamond = 0;
+			this.gold 		= 0;
+			this.diamond 	= 0;
+		}
+
+		public override void LoadFromDictionary (Dictionary<string, object> value)
+		{
+			base.LoadFromDictionary (value);
+			this.gold 		= int.Parse (value ["gold"].ToString ());
+			this.diamond 	= int.Parse (value["diamond"].ToString ());
 		}
 
 	}
