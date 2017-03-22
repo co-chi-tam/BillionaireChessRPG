@@ -25,8 +25,6 @@ namespace BillianaireChessRPG {
 		}
 
 		public void LoadHeroData() {
-			if (user == null)
-				return;
 			var hero1JSON = Resources.Load<TextAsset> ("Data/Character/WarriorData");
 			var hero1Data = TinyJSON.JSON.Load (hero1JSON.text).Make<CCharacterData> ();
 			var hero2JSON = Resources.Load<TextAsset> ("Data/Character/PriestData");
@@ -38,14 +36,19 @@ namespace BillianaireChessRPG {
 		private IEnumerator HandleLoadData(params CCharacterData[] heroes) {
 			for (int i = 0; i < heroes.Length; i++) {
 				var heroData = heroes [i];
-				var heroController = Instantiate (Resources.Load <CHeroController> (heroData.modelPath));
-				heroController.SetData (heroData);
+				var heroController = LoadHeroObject (heroData);
 				yield return heroController != null;
 				if (OnLoadHero != null) {
 					OnLoadHero (heroController);
 				}
 			}
 		}
+
+		private CHeroController LoadHeroObject(CCharacterData data) {
+			var heroController = Instantiate (Resources.Load <CHeroController> (data.modelPath));
+			heroController.SetData (data);
+			return heroController;
+		} 
 
 	}
 }
