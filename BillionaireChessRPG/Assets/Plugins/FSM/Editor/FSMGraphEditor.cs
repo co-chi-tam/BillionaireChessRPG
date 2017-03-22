@@ -8,6 +8,8 @@ using System.Collections.Generic;
 namespace FSMGraphNode {
 	public class FSMGraphEditor : EditorWindow {
 
+		#region Properties
+
 		public static List<FSMNodeEditor> nodeList;
 		public static List<FSMConditionLineEditor> lineList;
 
@@ -17,7 +19,13 @@ namespace FSMGraphNode {
 
 		private static string graphName = "FSMGraph";
 		private static int nodeTotalCount;
+		private static Vector2 scrollViewPos;
+		private static Rect windowRect;
 		private static Dictionary<string, FSMNodeEditor> m_Map;
+
+		#endregion
+
+		#region Main methods
 
 		[MenuItem("FSM/Grapth Editor Window")]
 		static void Init() {
@@ -26,24 +34,27 @@ namespace FSMGraphNode {
 			lineList = new List<FSMConditionLineEditor> ();
 			rootNode = new FSMNodeEditor ("Root", 50f, 50f, root, FSMNodeEditor.ENodeType.Root);
 			anyState = new FSMNodeEditor ("AnyState", 50f, 300f, root, FSMNodeEditor.ENodeType.AnyNode);
+			windowRect = new Rect (0f, 0f, 800f, 600f);
 			m_Map = new Dictionary<string, FSMNodeEditor> ();
 			nodeTotalCount = 0;
 		}
 
 		private void OnGUI() {
 			var currentEvent = Event.current;
+			var scrollOffset = new Rect (0f, 0f, root.position.width, root.position.height); 
+			scrollViewPos = GUI.BeginScrollView (scrollOffset, scrollViewPos, windowRect, true, true);
 			BeginWindows ();
 			rootNode.OnDraw (0, currentEvent);
 			anyState.OnDraw (1, currentEvent);
 			for (int i = 0; i < nodeList.Count; i++) {
 				nodeList [i].OnDraw (i + 2, currentEvent);
 			}
-			var size = this.position;
-			graphName = GUI.TextField (new Rect (size.width - 320f, size.height - 50f, 200f, 30f), graphName);
-			if (GUI.Button (new Rect (size.width - 110f, size.height - 60f, 100f, 50f), "Generate JSON")) {
+			graphName = GUI.TextField (new Rect (root.position.width - 320f, root.position.height - 60f, 200f, 30f), graphName);
+			if (GUI.Button (new Rect (root.position.width - 110f, root.position.height - 70f, 100f, 50f), "Generate JSON")) {
 				GenerateJson ("GenerateJson");
 			}
-			EndWindows();
+			EndWindows ();
+			GUI.EndScrollView ();
 			if (currentEvent.type == EventType.ContextClick) {
 				GenericMenu menu = new GenericMenu ();
 				menu.AddItem (new GUIContent ("Create New State"), false, CreateNewNode, "CreateNewState");
@@ -74,10 +85,10 @@ namespace FSMGraphNode {
 			json += ",";
 			json = json.Replace ("<<0>>", string.Empty);
 			if (anyState.conditionLines.Count > 0) {
-				json += GetJsonText ("IsAnyState", "AnyState");
+				json += GetJsonText (anyState, "IsAnyState", "AnyState");
 				json = json.Replace ("<<0>>", GenerateJson (string.Empty, anyState));
 			} else {
-				json += GetJsonText ("IsAnyState", "AnyState");
+				json += GetJsonText (anyState, "IsAnyState", "AnyState");
 			}
 			json = json.Replace ("<<0>>", string.Empty);
 			json += "]}";
@@ -90,7 +101,7 @@ namespace FSMGraphNode {
 		public virtual string GenerateJson(string json, FSMNodeEditor node) {
 			for (int i = 0; i < node.conditionLines.Count; i++) {
 				var condition = node.conditionLines [i];
-				json += GetJsonText (condition.GetName (), condition.targetNode.GetName ());
+				json += GetJsonText (condition.targetNode, condition.GetName (), condition.targetNode.GetName ());
 				json += (i == node.conditionLines.Count - 1) ? "" : ",";
 				if (m_Map.ContainsKey (condition.targetNode.GetName()))
 					continue;
@@ -120,11 +131,17 @@ namespace FSMGraphNode {
 			lineList.Remove (line);
 		}
 
-		public virtual string GetJsonText(string condition, string name) {
+		#endregion
+
+		#region Getter && Setter
+
+		public virtual string GetJsonText(FSMNodeEditor node, string condition, string name) {
 			return "{\"condition_name\":\"" 
 				+ condition + "\",\"state_name\":\"" 
 				+ name + "\",\"states\": [<<0>>]}";
 		}
+
+		#endregion
 
 	}
 }

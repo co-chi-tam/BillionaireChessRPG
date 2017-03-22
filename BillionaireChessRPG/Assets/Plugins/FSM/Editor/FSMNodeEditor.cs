@@ -69,7 +69,7 @@ namespace FSMGraphNode {
 		#region Main methods
 
 		public virtual void OnDraw(int id, Event currentEvent) {
-			nodeRect = GUI.Window (id, nodeRect, NodeFunction, nodeName);
+			nodeRect = GUILayout.Window (id, nodeRect, NodeFunction, nodeName);
 			if (GUI.Button (new Rect (nodeRect.width + nodeRect.x - 50f, nodeRect.height + nodeRect.y + 1f, 20, 20), "x")) {
 				if (IsNodeType == ENodeType.Node) {
 					rootGraph.DeleteNode (this);
