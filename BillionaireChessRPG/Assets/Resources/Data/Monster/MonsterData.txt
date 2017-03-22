@@ -2,6 +2,7 @@
 	"id": "MONSTER-0001",
 	"name": "MONSTER",
 	"objectType": 2,
+	"modelPath": "Prefabs/Monster/FireElement",
 	"avatarPath": "MonsterIcon",
 	"currentHealth": 60,
 	"maxHealth": 60,

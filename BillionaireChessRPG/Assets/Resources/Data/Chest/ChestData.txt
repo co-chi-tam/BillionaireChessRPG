@@ -2,6 +2,18 @@
 	"id": "CHEST-0001",
 	"name": "CHEST",
 	"objectType": 4,
+	"modelPath": "Prefabs/Chest/Chest",
 	"avatarPath": "ChestIcon",
+	"currentHealth": 1,
+	"maxHealth": 1,
+	"currentMana": 1,
+	"maxMana": 1,
+	"luckyPoint": 1.0,
+	"challengePoint": 1.0,
+	"pureDamage": 1,
+	"physicDamage": 1,
+	"physicDefend": 1,
+	"magicDamage": 1,
+	"magicDefend": 1,
 	"goldReward": 100
 }

@@ -13,5 +13,6 @@
 	"physicDamage": 50,
 	"physicDefend": 30,
 	"magicDamage": 50,
-	"magicDefend": 10
+	"magicDefend": 10,
+	"goldReward": 100
 }

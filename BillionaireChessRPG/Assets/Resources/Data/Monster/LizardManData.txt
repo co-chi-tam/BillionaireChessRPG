@@ -2,6 +2,7 @@
 	"id": "MONSTER-0001",
 	"name": "MONSTER",
 	"objectType": 2,
+	"modelPath": "Prefabs/Monster/LizardMan",
 	"avatarPath": "HeroIcon",
 	"currentHealth": 100,
 	"maxHealth": 100,

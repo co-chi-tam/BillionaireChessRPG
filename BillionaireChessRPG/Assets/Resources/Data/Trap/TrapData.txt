@@ -2,6 +2,7 @@
 	"id": "TRAP-0001",
 	"name": "TRAP",
 	"objectType": 3,
+	"modelPath": "Prefabs/Trap/Bomb",
 	"avatarPath": "TrapIcon",
 	"currentHealth": 1,
 	"maxHealth": 1,
@@ -14,4 +15,5 @@
 	"physicDefend": 50,
 	"magicDamage": 50,
 	"magicDefend": 50,
+	"goldReward": 1
 }
